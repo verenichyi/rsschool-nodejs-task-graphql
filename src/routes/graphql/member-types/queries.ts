@@ -9,9 +9,8 @@ export const MemberTypesQueries = {
     args: {
       ...memberTypesIdField,
     },
-    resolve: async (parent: unknown, args: { memberTypeId: MemberTypeId }, { db }: Context) => {
-      const { memberTypeId } = args;
-      return await db.memberType.findUnique({ where: { id: memberTypeId } });
+    resolve: async (parent: unknown, { id }: { id: MemberTypeId }, { db }: Context) => {
+      return await db.memberType.findUnique({ where: { id } });
     },
   },
   memberTypes: {
