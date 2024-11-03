@@ -3,8 +3,8 @@ import { GraphQLList, GraphQLNonNull, GraphQLResolveInfo } from 'graphql';
 import { SubscriptionToUser, UserSubscription, UserType } from '../types/users.js';
 import { Context, idField } from '../types/common.js';
 import {
-  ResolveTree,
   parseResolveInfo,
+  ResolveTree,
   simplifyParsedResolveInfoFragmentWithType,
 } from 'graphql-parse-resolve-info';
 
@@ -53,21 +53,21 @@ export const UserQueries = {
         users.forEach((user) => {
           if (subscribedToUser) {
             subscriptionsToUsersLoader.prime(
-                user.id,
-                user.subscribedToUser.map((it) => {
-                  const key = it.subscriberId;
-                  return map[key] as UserSubscription;
-                }),
+              user.id,
+              user.subscribedToUser.map((it) => {
+                const key = it.subscriberId;
+                return map[key] as UserSubscription;
+              }),
             );
           }
 
           if (userSubscribedTo) {
             usersSubscriptionsLoader.prime(
-                user.id,
-                user.userSubscribedTo.map((it) => {
-                  const key = it.authorId;
-                  return map[key] as SubscriptionToUser;
-                }),
+              user.id,
+              user.userSubscribedTo.map((it) => {
+                const key = it.authorId;
+                return map[key] as SubscriptionToUser;
+              }),
             );
           }
         });

@@ -1,6 +1,7 @@
 import {
   GraphQLFloat,
-  GraphQLInputObjectType, GraphQLList,
+  GraphQLInputObjectType,
+  GraphQLList,
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
@@ -8,7 +9,8 @@ import {
 import { Context, idField } from './common.js';
 import { userSchema } from '../../users/schemas.js';
 import { Static } from '@sinclair/typebox';
-import { PostType } from "./posts.js";
+import { PostType } from './posts.js';
+import { ProfileType } from './profiles.js';
 
 export type User = Static<typeof userSchema>;
 
@@ -56,6 +58,12 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType<User, Context>(
       type: new GraphQLNonNull(new GraphQLList(PostType)),
       resolve: async ({ id }: User, _: unknown, { loaders }: Context) => {
         return loaders.postsLoader.load(id);
+      },
+    },
+    profile: {
+      type: ProfileType,
+      resolve: async ({ id }: User, _: unknown, { loaders }: Context) => {
+        return loaders.profilesLoader.load(id);
       },
     },
   }),

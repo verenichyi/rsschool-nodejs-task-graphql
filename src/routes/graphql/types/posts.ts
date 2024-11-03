@@ -1,9 +1,4 @@
-import {
-  GraphQLInputObjectType,
-  GraphQLNonNull,
-  GraphQLObjectType,
-  GraphQLString,
-} from 'graphql';
+import { GraphQLInputObjectType, GraphQLNonNull, GraphQLObjectType, GraphQLString, } from 'graphql';
 import { UUIDType } from './uuid.js';
 import { idField } from './common.js';
 import { Static } from '@sinclair/typebox';
