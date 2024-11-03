@@ -8,6 +8,7 @@ import {
 import { Context, idField } from './common.js';
 import { userSchema } from '../../users/schemas.js';
 import { Static } from '@sinclair/typebox';
+import { PostType } from "./posts.js";
 
 export type User = Static<typeof userSchema>;
 
@@ -49,6 +50,12 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType<User, Context>(
       type: new GraphQLList(UserType),
       resolve: async ({ id }: User, _: unknown, { loaders }: Context) => {
         return loaders.usersSubscriptionsLoader.load(id);
+      },
+    },
+    posts: {
+      type: new GraphQLNonNull(new GraphQLList(PostType)),
+      resolve: async ({ id }: User, _: unknown, { loaders }: Context) => {
+        return loaders.postsLoader.load(id);
       },
     },
   }),

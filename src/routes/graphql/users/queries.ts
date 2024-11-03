@@ -22,7 +22,7 @@ export const UserQueries = {
     type: new GraphQLNonNull(new GraphQLList(UserType)),
     resolve: async (
       _: unknown,
-      { id }: { id: string },
+      __: unknown,
       { db, loaders }: Context,
       info: GraphQLResolveInfo,
     ) => {
