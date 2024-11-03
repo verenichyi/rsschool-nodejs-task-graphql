@@ -1,6 +1,6 @@
 import {
   GraphQLFloat,
-  GraphQLInputObjectType,
+  GraphQLInputObjectType, GraphQLList,
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
@@ -39,6 +39,18 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType<User, Context>(
   fields: () => ({
     ...idField,
     ...userFields,
+    subscribedToUser: {
+      type: new GraphQLList(UserType),
+      resolve: async ({ id }: User, _: unknown, { loaders }: Context) => {
+        return loaders.subscriptionsToUsersLoader.load(id);
+      },
+    },
+    userSubscribedTo: {
+      type: new GraphQLList(UserType),
+      resolve: async ({ id }: User, _: unknown, { loaders }: Context) => {
+        return loaders.usersSubscriptionsLoader.load(id);
+      },
+    },
   }),
 });
 

@@ -41,6 +41,38 @@ export const UserQueries = {
         },
       });
 
+      if (subscribedToUser || userSubscribedTo) {
+        const { usersSubscriptionsLoader, subscriptionsToUsersLoader } = loaders;
+
+        const map: Record<string, UserSubscription | SubscriptionToUser> = {};
+        users.forEach((it) => {
+          const key = it.id;
+          map[key] = it;
+        });
+
+        users.forEach((user) => {
+          if (subscribedToUser) {
+            subscriptionsToUsersLoader.prime(
+                user.id,
+                user.subscribedToUser.map((it) => {
+                  const key = it.subscriberId;
+                  return map[key] as UserSubscription;
+                }),
+            );
+          }
+
+          if (userSubscribedTo) {
+            usersSubscriptionsLoader.prime(
+                user.id,
+                user.userSubscribedTo.map((it) => {
+                  const key = it.authorId;
+                  return map[key] as SubscriptionToUser;
+                }),
+            );
+          }
+        });
+      }
+
       return users;
     },
   },
