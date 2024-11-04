@@ -38,21 +38,17 @@ export const UserMutations = {
     },
   },
   subscribeTo: {
-    type: UserType,
+    type: UUIDType,
     args: { userId: { type: UUIDType }, authorId: { type: UUIDType } },
-    resolve: (
+    resolve: async (
       _: unknown,
       { userId, authorId }: { userId: string; authorId: string },
       { db }: Context,
     ) => {
-      return db.user.update({
-        where: { id: userId },
+       await db.subscribersOnAuthors.create({
         data: {
-          userSubscribedTo: {
-            create: {
-              authorId,
-            },
-          },
+          subscriberId: userId,
+          authorId: authorId,
         },
       });
     },
