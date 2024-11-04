@@ -50,8 +50,8 @@ const plugin: FastifyPluginAsyncTypebox = async (fastify) => {
         query: new GraphQLObjectType({
           name: 'Query',
           fields: {
-            ...UserQueries,
             ...MemberTypesQueries,
+            ...UserQueries,
             ...PostQueries,
             ...ProfileQueries,
           },
